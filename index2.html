@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Reaction Tester</title>
+    <style>
+        body {
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            font-family: Arial, sans-serif;
+            height: 100vh;
+            margin: 0;
+            background-color: antiquewhite;
+        }
+
+        h1,
+        p {
+            margin: 20px 0;
+        }
+
+        #shape {
+            position: absolute;
+            background-color: rgb(23, 220, 102);
+            display: none;
+            cursor: pointer;
+            border-radius: 10px;
+        }
+
+        #reactionTime {
+            margin-top: 20px;
+            font-size: 1.2em;
+            color: #333;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Reaction Tester</h1>
+    <p>Click the box as soon as you can</p>
+    <p id="reactionTime"></p>
+    <div id="shape"></div>
+
+    <script>
+        let start;
+
+        function getRandomColor() {
+            const letters = '0123456789ABCDEF';
+            let color = '#';
+            for (let i = 0; i < 6; i++) {
+                color += letters[Math.floor(Math.random() * 16)];
+            }
+            return color;
+        }
+
+        function move() {
+            const shape = document.getElementById("shape");
+            const wh = (Math.random() * 100) + 100;
+            const maxLeft = window.innerWidth - wh - 20;
+            const maxTop = window.innerHeight - wh - 120;
+            const left = Math.random() * maxLeft;
+            const top = Math.random() * maxTop;
+
+            shape.style.left = left + "px";
+            shape.style.top = top + "px";
+            shape.style.height = wh + "px";
+            shape.style.width = wh + "px";
+            shape.style.backgroundColor = getRandomColor();
+            shape.style.display = "block";
+
+            start = new Date().getTime();
+        }
+
+        document.getElementById("shape").onclick = function () {
+            const end = new Date().getTime();
+            const timeTaken = (end - start) / 1000;
+            document.getElementById("reactionTime").textContent = "Your Reaction time: " + timeTaken.toFixed(3) + " seconds";
+            this.style.display = "none";
+            setTimeout(move, Math.random() * 2000);
+        };
+
+        // Initial delay before showing the first shape
+        setTimeout(move, Math.random() * 2000);
+    </script>
+</body>
+
+</html>
